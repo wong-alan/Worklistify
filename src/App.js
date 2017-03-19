@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './assets/images/UBClogo.png'
 import './App.css';
+import WorklistBuilder from './WorklistBuilder.js'
 
 class App extends Component {
   render() {
@@ -8,11 +9,19 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          <h2>UBC Worklist Builder</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <div className="content">
+          <p className="App-intro">
+            Tired of building worklists manually like a pleb?
+            Let us do the work for you.
+          </p>
+          <WorklistBuilder>
+          </WorklistBuilder>
+          <p>
+            never-lucky 2017
+          </p>
+        </div>
       </div>
     );
   }
