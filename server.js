@@ -3,6 +3,8 @@ const fs = require('fs');
 
 const app = express();
 
+const data = require('./data/data.json'); 
+
 app.set('port', (process.env.PORT || 3001));
 
 // Express only serves static assets in production
@@ -19,7 +21,15 @@ app.get('/api/courses', (req, res) => {
   var c6 = req.query.c6;
   var c7 = req.query.c7;
 
-  res.json([c1, c2, c3, c4, c5, c6, c7]);
+  var cs = [c1, c2, c3, c4, c5, c6, c7];
+  var course_sections = [];
+  for (var i = 0; i < cs.length; i++) {
+    if (cs[i]) {
+      course_sections.push(data[cs[i]]);
+    }
+  }
+
+  res.json(course_sections);
 });
 
 app.listen(app.get('port'), () => {
