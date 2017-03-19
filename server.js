@@ -41,10 +41,20 @@ app.get('/api/courses', (req, res) => {
       }
     }
   }
+
   var schedules = timetable.create_timetable(course_sections);
   response['not_found'] = not_found;
   if (schedules.length !== 0) {
-    response['timetable'] = schedules[0].sections;
+    var shortest_timespan_index = -1;
+    var shortest_timespan = 24*60;
+    for (var i = 0; i < schedules.length; i++) {
+      var cur_timespan = schedules[i].calculate_timespan();
+      if (cur_timespan < shortest_timespan) {
+        shortest_timespan = cur_timespan;
+        shortest_timespan_index = i;
+      }
+    }
+    response['timetable'] = schedules[shortest_timespan_index].sections;
   } else {
     response['timetable'] = [];
   }
