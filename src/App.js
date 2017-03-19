@@ -9,7 +9,7 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>UBC Worklist Builder</h2>
+          <h1 className="title">UBC Worklist Builder</h1>
         </div>
         <div className="content">
           <p className="App-intro">

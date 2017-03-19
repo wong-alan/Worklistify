@@ -7,30 +7,18 @@ import CourseInput from './CourseInput'
 import CourseAdd from './CourseAdd'
 
 class CourseSelector extends Component {
-  constructor () {
-    super();
-    this.state = {
-      numCourses: 1
-    };
-  }
-
-  onAddCourse () {
-    this.setState({
-      numCourses: Math.min(this.state.numCourses + 1, 7)
-    })
-    console.log(this.state.numCourses)
-  }
 
   render() {
     const children = []
 
-    for (var i = 0; i < this.state.numCourses; i += 1) {
-      children.push(<CourseInput number={i} />);
+    for (var i = 0; i < this.props.numCourses; i += 1) {
+      children.push(<CourseInput number={i} key={i}
+              handleCourseChange={this.props.handleCourseChange.bind(this)} />);
     };
 
     return (
       <div className="CourseSelector">
-        <Table className="SelectorTable" striped bordered condensed hover>
+        <Table className="SelectorTable" condensed>
           <thead>
             <tr>
               <th>
@@ -43,7 +31,7 @@ class CourseSelector extends Component {
           </thead>
           <tbody>
             {children}
-            <CourseAdd addCourse={this.onAddCourse.bind(this)} />
+            <CourseAdd addCourse={this.props.handleAddCourse.bind(this)} />
           </tbody>
         </Table>
       </div>
