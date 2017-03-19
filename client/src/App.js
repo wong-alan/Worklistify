@@ -19,7 +19,7 @@ class App extends Component {
           <WorklistBuilder>
           </WorklistBuilder>
           <p>
-            never-lucky 2017
+            Worklistify 2017
           </p>
         </div>
       </div>
