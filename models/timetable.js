@@ -19,7 +19,7 @@ Section.prototype.check_conflict = function(other) {
 			var start_2 = parseInt(start_2_parse[0])*60 + parseInt(start_2_parse[1]);
 			var end_2_parse = other.end_time.split(':');
 			var end_2 = parseInt(end_2_parse[0])*60 + parseInt(end_2_parse[1]);
-			if ((start_1 < start_2 && end_1 > start_2) || (end_1 > end_2 && start_1 < end_2)) {
+			if ((start_1 < start_2 && end_1 > start_2) || (end_1 > end_2 && start_1 < end_2) || (start_1 === start_2) || (end_1 === end_2)) {
 				return true;
 			}
 		}
