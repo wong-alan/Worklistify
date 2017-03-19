@@ -10,13 +10,25 @@ let base_url = 'https://courses.students.ubc.ca/cs/main?pname=subjarea&tname=sub
 */
 courses = [{
   dept: "CPSC",
-  no: [100, 103, 110, 121]
+  no: [100, 103, 110, 121, 210, 221 ,213, 310, 320, 313]
 }, {
   dept: "MATH",
-  no: [100, 101]
+  no: [100, 101, 102, 103, 104, 105, 200, 221]
 }, {
   dept: "ENGL",
   no: [110, 112]
+}, {
+  dept: "BIOL",
+  no: [112, 121]
+}, {
+  dept: "PHYS",
+  no: [100, 101, 102]
+}, {
+  dept: "CHEM",
+  no: [111, 121]
+}, {
+  dept: "STAT",
+  no: [200, 241, 302]
 }];
 
 let coursesList = {};

@@ -1,6 +1,7 @@
 th {
 	padding-left: 15px;
 	border-bottom: 1px solid black;
+	text-align: center !important;
 }
 
 tr {
