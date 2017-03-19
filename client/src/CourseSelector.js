@@ -9,7 +9,7 @@ import CourseAdd from './CourseAdd'
 class CourseSelector extends Component {
 
   render() {
-    const children = []
+    const children = [];
 
     for (var i = 0; i < this.props.numCourses; i += 1) {
       children.push(<CourseInput number={i} key={i}

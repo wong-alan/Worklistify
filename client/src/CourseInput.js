@@ -11,17 +11,13 @@ class CourseInput extends Component {
   handleDeptChange(event) {
     var value = event.target.value;
     this.setState({dept: value});
-    if (value.length === 4 && this.state.code.length === 3) {
-      this.props.handleCourseChange(this.props.number, value, this.state.code);
-    }
+    this.props.handleCourseChange(this.props.number, value, this.state.code);
   }
 
   handleCodeChange(event) {
     var value = event.target.value;
     this.setState({code: value});
-    if (value.length === 3 && this.state.dept.length === 4) {
-      this.props.handleCourseChange(this.props.number, this.state.dept, value);
-    }
+    this.props.handleCourseChange(this.props.number, this.state.dept, value);
   }
 
   render() {
