@@ -4,26 +4,27 @@ function Section(info) {
 	this.start_time = info['start_time'];
 	this.end_time = info['end_time'];
 	this.days = info['days'];
-	this.check_conflict = function(other) {
-		var all_days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-		for (var i = 0; i < all_days.length; i++) {
-			var day = all_days[i];
-			if (this.days !== null && this.days.indexOf(day) !== -1 && other.days.indexOf(day) !== -1) {
-				var start_1_parse = this.start_time.split(':');
-				var start_1 = parseInt(start_1_parse[0])*100 + parseInt(start_1_parse[1]);
-				var end_1_parse = this.end_time.split(':');
-				var end_1 = parseInt(end_1_parse[0])*100 + parseInt(end_1_parse[1]);
-				var start_2_parse = other.start_time.split(':');
-				var start_2 = parseInt(start_2_parse[0])*100 + parseInt(start_2_parse[1]);
-				var end_2_parse = other.end_time.split(':');
-				var end_2 = parseInt(end_2_parse[0])*100 + parseInt(end_2_parse[1]);
-				if ((start_1 < start_2 && end_1 > start_2) || (end_1 > end_2 && start_1 < end_2)) {
-					return true;
-				}
+}
+
+Section.prototype.check_conflict = function(other) {
+	var all_days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+	for (var i = 0; i < all_days.length; i++) {
+		var day = all_days[i];
+		if (this.days !== null && this.days.indexOf(day) !== -1 && other.days.indexOf(day) !== -1) {
+			var start_1_parse = this.start_time.split(':');
+			var start_1 = parseInt(start_1_parse[0])*100 + parseInt(start_1_parse[1]);
+			var end_1_parse = this.end_time.split(':');
+			var end_1 = parseInt(end_1_parse[0])*100 + parseInt(end_1_parse[1]);
+			var start_2_parse = other.start_time.split(':');
+			var start_2 = parseInt(start_2_parse[0])*100 + parseInt(start_2_parse[1]);
+			var end_2_parse = other.end_time.split(':');
+			var end_2 = parseInt(end_2_parse[0])*100 + parseInt(end_2_parse[1]);
+			if ((start_1 < start_2 && end_1 > start_2) || (end_1 > end_2 && start_1 < end_2)) {
+				return true;
 			}
 		}
-		return false;
 	}
+	return false;
 }
 
 function Schedule(sections) {
