@@ -8,7 +8,7 @@ function Section(info) {
 		var all_days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 		for (var i = 0; i < all_days.length; i++) {
 			var day = all_days[i];
-			if (this.days.indexOf(day) !== -1 && other.days.indexOf(day) !== -1) {
+			if (this.days !== null && this.days.indexOf(day) !== -1 && other.days.indexOf(day) !== -1) {
 				var start_1_parse = this.start_time.split(':');
 				var start_1 = start_1_parse[0]*100 + start_1_parse[1];
 				var end_1_parse = this.end_time.split(':');
@@ -21,6 +21,7 @@ function Section(info) {
 					return true;
 				}
 			}
+		}
 		return false;
 	}
 }
@@ -37,8 +38,12 @@ function Schedule(sections) {
 	}
 	this.get_add_section = function(section) {
 		if (!(this.check_conflict(section))) {
-			this.sections.push(section);
-			return this.sections;
+			var added_sections = [];
+			for (var i = 0; i < this.sections.length; i++) {
+				added_sections.push(this.sections[i]);
+			}
+			added_sections.push(section);
+			return added_sections;
 		}
 		return false;
 	}
@@ -59,7 +64,7 @@ function Timetables(schedules) {
 			for (var j = 0; j < sections.length; j++) {
 				var try_add_section = this.schedules[i].get_add_section(sections[j]);
 				if (try_add_section) {
-					new_schedules.push(try_add_section);
+					new_schedules.push(new Schedule(try_add_section));
 				}
 			}
 		}
@@ -85,7 +90,7 @@ module.exports = {
 			var section = sections[i];
 			var activity = section['activity'];
 			if (activity == 'Lecture') {
-				lectures.push(new Section(section));
+				lectures.push(new Schedule([new Section(section)]));
 			} else if (activity == 'Laboratory') {
 				laboratories.push(new Section(section));
 			} else if (activity == 'Tutorial') {
@@ -94,7 +99,7 @@ module.exports = {
 		}
 
 		if (lectures.length == 0) {
-			console.err('No lectures found');
+			console.log('No lectures found');
 			return [];
 		}
 
