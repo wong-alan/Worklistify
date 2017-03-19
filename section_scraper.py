@@ -1,4 +1,5 @@
 import scrapy
+from sections import Section
 
 class SectionSpider(scrapy.Spider):
     name = "sections"
@@ -7,14 +8,15 @@ class SectionSpider(scrapy.Spider):
     ]
 
     def parse(self, response):
-        for section in response.xpath('//tr'):
-            yield {
-                'name': section.xpath('./td[2]/a/text()').extract_first(),
-                'activity': section.xpath('./td[3]/text()').extract_first(),
-                'days': section.xpath('./td[6]/text()').extract_first(),
-                'start_time': section.xpath('./td[7]/text()').extract_first(),
-                'end_time': section.xpath('./td[8]/text()').extract_first(),
-            }
+        
+        for row in response.xpath('//tr'):
+            section = Section()
+            section['name'] = row.xpath('./td[2]/a/text()').extract_first()
+            section['activity'] = row.xpath('./td[3]/text()').extract_first()
+            section['days'] = row.xpath('./td[6]/text()').extract_first()
+            section['start_time'] = row.xpath('./td[7]/text()').extract_first()
+            section['end_time'] = row.xpath('./td[8]/text()').extract_first()
+            yield section
         
         # next_page = response.css('li.next a::attr("href")').extract_first()
         # if next_page is not None:
