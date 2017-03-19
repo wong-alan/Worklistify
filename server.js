@@ -6,6 +6,10 @@ const app = express();
 const timetable = require('./models/timetable.js');
 const data = require('./data/data.json'); 
 
+const mongoose = require("mongoose");
+
+mongoose.connect('mongodb://localhost/test');
+
 app.set('port', (process.env.PORT || 3001));
 
 // Express only serves static assets in production
@@ -47,6 +51,36 @@ app.get('/api/courses', (req, res) => {
 
   res.json(response);
 });
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  // console.log('connected!');
+});
+
+var courseSchema = mongoose.Schema({
+    dept: String,
+    code: Number,
+    sessyr: Number,
+    sesscd: String
+});
+
+var course = mongoose.model('Course', courseSchema);
+var CPSC2212014W = new course({ dept: 'CPSC', code: '221', sessyr: '2014', sesscd: 'W' });
+console.log(course.code); // '221'
+
+// courseSchema.methods.csOrNot = function () {
+//   var dept = this.dept;
+//   if (dept.valueOf() == new String("CPSC").valueOf()) {
+//     console.log("this is a CS course");
+//   }
+//   else {
+//     console.log("not a CS course");
+//   }
+// }
+
+// var CPSC213 = new course({ dept: 'CPSC', code: '213' });
+// CPSC213.csOrNot(); // "this is a comp sci course"
 
 app.listen(app.get('port'), () => {
   console.log(`Find the server at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
