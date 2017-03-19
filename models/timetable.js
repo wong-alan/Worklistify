@@ -52,6 +52,41 @@ Schedule.prototype.get_add_section = function(section) {
 	return false;
 }
 
+Schedule.prototype.calculate_timespan = function() {
+	var all_days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+	var day_start = {};
+	var day_end = {};
+	for (var i = 0; i < this.sections.length; i++) {
+		var section = this.sections[i];
+		for (var j = 0; j < all_days.length; j++) {
+			var day = all_days[j];
+			if (section.days !== null && section.days.indexOf(day) !== -1) {
+				var start_parse = section.start_time.split(':');
+				var start = parseInt(start_parse[0])*60 + parseInt(start_parse[1]);
+				var end_parse = section.end_time.split(':');
+				var end = parseInt(end_parse[0])*60 + parseInt(end_parse[1]);
+				if (!(day in day_start)) {
+					day_start[day] = start;
+					day_end[day] = end;
+				} else {
+					if (start < day_start[day]) {
+						day_start[day] = start;
+					}
+					if (end > day_end[day]) {
+						day_end[day] = end;
+					}
+				}
+			}
+		}
+	}
+	var total_timespan = 0;
+	var timespan_days = Object.keys(day_start);
+	for (var i = 0; i < timespan_days.length; i++) {
+		total_timespan += (day_end[timespan_days[i]] - day_start[timespan_days[i]]);
+	}
+	return total_timespan;
+}
+
 function Timetables(schedules) {
 	this.schedules = schedules || [];
 }
