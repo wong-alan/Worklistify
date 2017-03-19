@@ -31,7 +31,7 @@ for (i = 0; i < courses.length; i++) {
       let courses = {};
       let sections = [];
       $('tr'/*, "'.section1'"*/).each((i, elm) => {
-        if ($(elm).children().eq(1).text().trim() != "") {
+        if (($(elm).children().eq(1).text().trim() != "") && ($(elm).children().eq(5).text().trim() != "")){
           sections.push({
             name: $(elm).children().eq(1).text().trim(),
             activity: $(elm).children().eq(2).text().trim(),
