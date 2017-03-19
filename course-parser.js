@@ -26,18 +26,23 @@ for (i = 0; i < courses.length; i++) {
     let base_url = 'https://courses.students.ubc.ca/cs/main?pname=subjarea&tname=subjareas&req=3&dept=' + courses[i].dept + '&course=' + courses[i].no[j].toString();
     axios.get(base_url).then((response) => {
       let $ = cheerio.load(response.data);
+      let sections_exist = {};
       let sections = [];
       $('tr'/*, "'.section1'"*/).each((i, elm) => {
         if (($(elm).children().eq(1).text().trim() != "") && ($(elm).children().eq(5).text().trim() != "")){
-          sections.push({
-            name: $(elm).children().eq(1).text().trim(),
-            activity: $(elm).children().eq(2).text().trim(),
-            term: $(elm).children().eq(3).text().trim(),
-            days: $(elm).children().eq(5).text().trim(),
-            start_time: $(elm).children().eq(6).text().trim(),
-            end_time: $(elm).children().eq(7).text().trim(),
-            status: $(elm).children().eq(0).text().trim()
-          });
+          var section_name = $(elm).children().eq(1).text().trim();
+          if (!(section_name in sections_exist)) {
+            sections.push({
+              name: section_name,
+              activity: $(elm).children().eq(2).text().trim(),
+              term: $(elm).children().eq(3).text().trim(),
+              days: $(elm).children().eq(5).text().trim(),
+              start_time: $(elm).children().eq(6).text().trim(),
+              end_time: $(elm).children().eq(7).text().trim(),
+              status: $(elm).children().eq(0).text().trim()
+            });
+            sections_exist[section_name] = 1;
+          }
         }
       });
       // Remove first element in sections
