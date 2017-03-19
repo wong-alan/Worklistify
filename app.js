@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var scraper = require('./section_scraper');
 
 var index = require('./routes/index');
 
@@ -42,3 +43,5 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+scraper('CPSC', 121, 2016, 'W');
