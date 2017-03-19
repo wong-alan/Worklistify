@@ -3,6 +3,7 @@ const fs = require('fs');
 
 const app = express();
 
+const timetable = require('./models/timetable.js');
 const data = require('./data/data.json'); 
 
 app.set('port', (process.env.PORT || 3001));
@@ -22,14 +23,26 @@ app.get('/api/courses', (req, res) => {
   var c7 = req.query.c7;
 
   var cs = [c1, c2, c3, c4, c5, c6, c7];
+
+  var response = {};
+  var not_found = [];
+
   var course_sections = [];
   for (var i = 0; i < cs.length; i++) {
     if (cs[i]) {
-      course_sections.push(data[cs[i]]);
+      if (cs[i] in data) {
+        course_sections.push(data[cs[i]]);
+      } else {
+        not_found.push(cs[i]);
+      }
     }
   }
+  var schedules = timetable.create_timetable(course_sections);
 
-  res.json(course_sections);
+  response['not_found'] = not_found;
+  response['timetable'] = schedules[0].sections;
+
+  res.json(response);
 });
 
 app.listen(app.get('port'), () => {
