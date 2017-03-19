@@ -1,0 +1,11 @@
+.CourseAdd {
+	width: 100%;
+	height: 30px;
+	background-color: #333333;
+}
+
+.plus-icon {
+	float: right;
+	width: 20px;
+	height: 20px;
+}
