@@ -29,53 +29,56 @@ Section.prototype.check_conflict = function(other) {
 
 function Schedule(sections) {
 	this.sections = sections || [];
-	this.check_conflict = function(section) {
+}
+
+Schedule.prototype.check_conflict = function(section) {
+	for (var i = 0; i < this.sections.length; i++) {
+		if (this.sections[i].check_conflict(section)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+Schedule.prototype.get_add_section = function(section) {
+	if (!(this.check_conflict(section))) {
+		var added_sections = [];
 		for (var i = 0; i < this.sections.length; i++) {
-			if (this.sections[i].check_conflict(section)) {
-				return true;
-			}
+			added_sections.push(this.sections[i]);
 		}
-		return false;
+		added_sections.push(section);
+		return added_sections;
 	}
-	this.get_add_section = function(section) {
-		if (!(this.check_conflict(section))) {
-			var added_sections = [];
-			for (var i = 0; i < this.sections.length; i++) {
-				added_sections.push(this.sections[i]);
-			}
-			added_sections.push(section);
-			return added_sections;
-		}
-		return false;
-	}
+	return false;
 }
 
 function Timetables(schedules) {
 	this.schedules = schedules || [];
-	this.add_sections = function(sections) {
-		if (this.schedules.length === 0) {
-			this.schedules = sections;
-			return true;
-		}
-		if (sections.length === 0) {
-			return true;
-		}
-		var new_schedules = [];
-		for (var i = 0; i < this.schedules.length; i++) {
-			for (var j = 0; j < sections.length; j++) {
-				var try_add_section = this.schedules[i].get_add_section(sections[j]);
-				if (try_add_section) {
-					new_schedules.push(new Schedule(try_add_section));
-				}
+}
+
+Timetables.prototype.add_sections = function(sections) {
+	if (this.schedules.length === 0) {
+		this.schedules = sections;
+		return true;
+	}
+	if (sections.length === 0) {
+		return true;
+	}
+	var new_schedules = [];
+	for (var i = 0; i < this.schedules.length; i++) {
+		for (var j = 0; j < sections.length; j++) {
+			var try_add_section = this.schedules[i].get_add_section(sections[j]);
+			if (try_add_section) {
+				new_schedules.push(new Schedule(try_add_section));
 			}
 		}
-		if (new_schedules.length === 0) {
-			console.log('No possible timetables!');
-			return false;
-		} else {
-			this.schedules = new_schedules;
-			return true;
-		}
+	}
+	if (new_schedules.length === 0) {
+		console.log('No possible timetables!');
+		return false;
+	} else {
+		this.schedules = new_schedules;
+		return true;
 	}
 }
 
