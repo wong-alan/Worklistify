@@ -10,13 +10,13 @@ function Section(info) {
 			var day = all_days[i];
 			if (this.days !== null && this.days.indexOf(day) !== -1 && other.days.indexOf(day) !== -1) {
 				var start_1_parse = this.start_time.split(':');
-				var start_1 = start_1_parse[0]*100 + start_1_parse[1];
+				var start_1 = parseInt(start_1_parse[0])*100 + parseInt(start_1_parse[1]);
 				var end_1_parse = this.end_time.split(':');
-				var end_1 = end_1_parse[0]*100 + end_1_parse[1];
+				var end_1 = parseInt(end_1_parse[0])*100 + parseInt(end_1_parse[1]);
 				var start_2_parse = other.start_time.split(':');
-				var start_2 = start_2_parse[0]*100 + start_2_parse[1];
+				var start_2 = parseInt(start_2_parse[0])*100 + parseInt(start_2_parse[1]);
 				var end_2_parse = other.end_time.split(':');
-				var end_2 = end_2_parse[0]*100 + end_2_parse[1];
+				var end_2 = parseInt(end_2_parse[0])*100 + parseInt(end_2_parse[1]);
 				if ((start_1 < start_2 && end_1 > start_2) || (end_1 > end_2 && start_1 < end_2)) {
 					return true;
 				}
@@ -79,7 +79,8 @@ function Timetables(schedules) {
 }
 
 module.exports = {
-	create_timetable: function(sections) {
+	// sections is an array of sections for one course
+	create_timetable_single: function(sections) {
 
 		// split the sections by activity
 		var lectures = [];
@@ -109,6 +110,51 @@ module.exports = {
 		}
 		if (!(timetables.add_sections(tutorials))) {
 			return [];
+		}
+		return timetables.schedules;
+	},
+	// courses_sections is an array of array of sections, based on course
+	create_timetable: function(courses_sections) {
+		var timetables;
+		for (var i = 0; i < courses_sections.length; i++) {
+			// split the sections by activity
+			var lectures = [];
+			var laboratories = [];
+			var tutorials = [];
+
+			for (var j = 0; j < courses_sections[i].length; j++) {
+				var section = courses_sections[i][j];
+				var activity = section['activity'];
+				if (activity == 'Lecture') {
+					if (i === 0) {
+						lectures.push(new Schedule([new Section(section)]));
+					} else {
+						lectures.push(new Section(section));
+					}
+				} else if (activity == 'Laboratory') {
+					laboratories.push(new Section(section));
+				} else if (activity == 'Tutorial') {
+					tutorials.push(new Section(section));
+				}
+			}
+
+			if (lectures.length == 0) {
+				console.log('No lectures found for course ' + (i+1).toString());
+				return [];
+			}
+			if (i === 0) {
+				var timetables = new Timetables(lectures);
+			} else {
+				if (!(timetables.add_sections(lectures))) {
+					return [];
+				}
+			}
+			if (!(timetables.add_sections(laboratories))) {
+				return [];
+			}
+			if (!(timetables.add_sections(tutorials))) {
+				return [];
+			}
 		}
 		return timetables.schedules;
 	}
