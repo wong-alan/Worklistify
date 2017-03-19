@@ -38,9 +38,12 @@ app.get('/api/courses', (req, res) => {
     }
   }
   var schedules = timetable.create_timetable(course_sections);
-
   response['not_found'] = not_found;
-  response['timetable'] = schedules[0].sections;
+  if (schedules.length !== 0) {
+    response['timetable'] = schedules[0].sections;
+  } else {
+    response['timetable'] = [];
+  }
 
   res.json(response);
 });
