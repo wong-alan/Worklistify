@@ -3,5 +3,12 @@
 	width: 80%;
 	height: 80%;
 	padding: 30px 15px 30px 15px;
-	background-color: #888888;
+	background-color: #002145;
+	border: 3px outset #a39875;
 }
+
+.CourseSelector {
+	color: #333333;
+	border: 2px outset #a39875;
+}
+

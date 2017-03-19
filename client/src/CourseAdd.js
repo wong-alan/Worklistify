@@ -7,8 +7,9 @@ class CourseAdd extends Component {
   render() {
     return (
       <tr>
-        <td onClick={this.props.addCourse} colSpan="2">Add a course
+        <td onClick={this.props.addCourse} colSpan="2">
           <img src={plus} className="plus-icon" alt="plus" />
+           <text>Add a course</text>
         </td>
       </tr>
     )
