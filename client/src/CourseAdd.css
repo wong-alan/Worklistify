@@ -2,6 +2,7 @@
 	width: 100%;
 	height: 30px;
 	background-color: #333333;
+	border: 1px solid grey;
 }
 
 .plus-icon {
@@ -9,3 +10,9 @@
 	width: 20px;
 	height: 20px;
 }
+
+text {
+	float:right;
+	margin-right: 10px;
+}
+
